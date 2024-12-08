@@ -1,0 +1,305 @@
+
+Web application frameworks:
+---------------------------
+django-->python
+
+flask---> python
+Flask is a web application framework written in python
+Flask is a web framework that provides libraries to build lightweight web applications in python. 
+It is developed by ARMIN RONACHER who leads an international group of python enthusiasts (POCCO). 
+It is based on WSGI toolkit and jinja2 template engine. Flask is considered as a micro framework.
+
+What is WSGI?
+It is an acronym for web server gateway interface which is a standard for python web application 
+development. It is considered as the specification for the universal interface between the web server 
+and web application.
+
+
+
+Django :
+Django software foundation
+Adrian Holovaty,Simon willison	
+
+Flask:
+=======
+py --version
+python -m pip --version
+python -m pip install virtualenv
+python -m virtualenv tvenv
+tvenv\Scripts\activate
+python -m pip install flask
+
+** Flask was written in python and developed by Armin Ronacher in april 1 2010 (intial release) and stable release 1.1.1 and it is open source
+
+** flask another framework to create web applications like django,pyramid...etc
+
+
+* Python 2.6 or higher is usually required for installation of Flask,many extensions were added after 2.6  so it is recommended that Flask should be installed on Python 2.7.
+
+pip :preferred installer program
+
+To install flask  we need use pip 
+
+pip install flask 
+
+To Check flask verison
+
+Ex:
+
+
+in idle(python shell)
+
+>>> import flask
+>>> flask.__version__
+'1.1.1'
+
+Importing flask module in the project is mandatory
+
+Flask constructor takes the name of current module (__name__) as argument.
+
+The route() function of the Flask class is a decorator, which tells the application which URL should call the associated function.
+
+pip install virtualenv
+
+then create project folder
+
+virtualenv env
+
+to activate environment 
+
+env\Scripts\activate
+
+
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello_world():
+   return 'Hello World’
+
+if __name__ == '__main__':
+   app.run()
+
+
+
+debug mode is to re-start server  automatically whenever changes made in program
+===========
+app.debug = True
+app.run()
+app.run(debug = True)
+
+
+
+
+Flask Routing:
+===============
+url 
+
+VariableRules:
+---------------
+
+<variable-name>
+
+
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/hello/<name>')
+def hello_name(name):
+   return 'Hello %s!' % name
+
+if __name__ == '__main__':
+   app.run(debug = True)
+
+
+
+
+
+
+
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/blog/<int:postID>')
+def show_blog(postID):
+   return 'Blog Number %d' % postID
+
+@app.route('/rev/<float:revNo>')
+def revision(revNo):
+   return 'Revision Number %f' % revNo
+
+if __name__ == '__main__':
+   app.run()
+
+
+http://localhost:5000/blog/11
+
+
+
+
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/flask')
+def hello_flask():
+   return 'Hello Flask'
+
+@app.route('/python/')
+def hello_python():
+   return 'Hello Python'
+
+if __name__ == '__main__':
+   app.run()
+
+
+
+
+
+
+from flask import Flask, redirect, url_for
+app = Flask(__name__)
+
+@app.route('/admin')
+def hello_admin():
+   return 'Hello Admin'
+
+@app.route('/guest/<guest>')
+def hello_guest(guest):
+   return 'Hello %s as Guest' % guest
+
+@app.route('/user/<name>')
+def hello_user(name):
+   if name =='admin':
+      return redirect(url_for('hello_admin'))
+   else:
+      return redirect(url_for('hello_guest',guest = name))
+
+if __name__ == '__main__':
+   app.run(debug = True)
+
+
+http://localhost:5000/user/admin
+
+
+Flask Templates:
+================
+
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+   return '<html><body><h1>Hello World</h1></body></html>'
+
+if __name__ == '__main__':
+   app.run(debug = True)
+
+
+
+
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+   return render_template(‘hello.html’)
+
+if __name__ == '__main__':
+   app.run(debug = True)
+
+
+
+Application folder
+	Hello.py
+	templates
+		hello.html
+		
+		
+hello.html:
+------------
+		
+<!doctype html>
+<html>
+   <body>
+   
+      <h1>Hello {{ name }}!</h1>
+      
+   </body>
+</html>		
+
+
+from flask import Flask, render_template
+app = Flask(__name__)
+
+@app.route('/hello/<user>')
+def hello_name(user):
+   return render_template('hello.html', name = user)
+
+if __name__ == '__main__':
+   app.run(debug = True)
+
+
+Cookies:
+========
+In the following Flask application, a simple form opens up as you visit ‘/’ URL.
+
+@app.route('/')
+def index():
+   return render_template('index.html')
+This HTML page contains one text input.
+
+<html>
+   <body>
+      <form action = "/setcookie" method = "POST">
+         <p><h3>Enter userID</h3></p>
+         <p><input type = 'text' name = 'nm'/></p>
+         <p><input type = 'submit' value = 'Login'/></p>
+      </form>
+   </body>
+</html>
+The Form is posted to ‘/setcookie’ URL. The associated view function sets a Cookie name userID and renders another page.
+
+@app.route('/setcookie', methods = ['POST', 'GET'])
+def setcookie():
+   if request.method == 'POST':
+   user = request.form['nm']
+   
+   resp = make_response(render_template('readcookie.html'))
+   resp.set_cookie('userID', user)
+   
+   return resp
+‘readcookie.html’ contains a hyperlink to another view function getcookie(), which reads back and displays the cookie value in browser.
+
+@app.route('/getcookie')
+def getcookie():
+   name = request.cookies.get('userID')
+   return '<h1>welcome '+name+'</h1>'
+Run the application and visit http://localhost:5000/
+
+Http:
+=====
+
+http :stateless protocol
+
+gmail,amazon-->username and password
+
+
+
+we need hold the data---->Cookies---browser
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
